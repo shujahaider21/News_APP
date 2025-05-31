@@ -8,7 +8,7 @@ class HeadlineScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var contoller = Get.put(NewsController());
+    var controller = Get.put(NewsController());
     return Scaffold(
       appBar: AppBar(
         title: const Text("Headlines"),
@@ -22,7 +22,7 @@ class HeadlineScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
-              contoller.getNews();
+              controller.getNews();
             },
           ),
         ],
@@ -31,11 +31,11 @@ class HeadlineScreen extends StatelessWidget {
         child: Obx(
           () => ListView.builder(
             itemBuilder: (context, index) {
-              if (contoller.isLoading.value) {
+              if (controller.isLoading.value) {
                 return Center(
                   child: CircularProgressIndicator(color: Colors.black),
                 );
-              } else if (contoller.news.isEmpty) {
+              } else if (controller.news.isEmpty) {
                 return const Center(child: Text("No News Found!"));
               } else {
                 return Container(
@@ -53,7 +53,7 @@ class HeadlineScreen extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
-                            contoller.news[index].urlToImage ?? '',
+                            controller.news[index].urlToImage ?? '',
                             fit: BoxFit.cover,
                             height: 150,
                             width: double.infinity,
@@ -66,11 +66,11 @@ class HeadlineScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              contoller.news[index].title.length > 20
-                                  ? "${contoller.news[index].title.substring(0, 20)}..."
-                                  : contoller.news[index].title,
+                              controller.news[index].title.length > 20
+                                  ? "${controller.news[index].title.substring(0, 20)}..."
+                                  : controller.news[index].title,
                             ),
-                            Text(contoller.news[index].publishedAt),
+                            Text(controller.news[index].publishedAt),
                           ],
                         ),
                       ),
@@ -79,7 +79,7 @@ class HeadlineScreen extends StatelessWidget {
                 );
               }
             },
-            itemCount: contoller.news.length,
+            itemCount: controller.news.length,
           ),
         ),
       ),

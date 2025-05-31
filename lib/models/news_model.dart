@@ -11,8 +11,8 @@ class NewsResponse {
 
   factory NewsResponse.fromJson(Map<String, dynamic> json) {
     return NewsResponse(
-      status: json['status'],
-      totalResults: json['totalResults'],
+      status: json['status'] ?? 'unknown',
+      totalResults: json['totalResults'] ?? 0,
       articles:
           (json['articles'] as List)
               .map((article) => Article.fromJson(article))
@@ -22,35 +22,35 @@ class NewsResponse {
 }
 
 class Article {
-  final Source source;
+  final Source? source;
   final String? author;
   final String title;
-  final String description;
+  final String? description;
   final String url;
-  final String urlToImage;
+  final String? urlToImage;
   final String publishedAt;
-  final String content;
+  final String? content;
 
   Article({
-    required this.source,
+    this.source,
     this.author,
     required this.title,
-    required this.description,
+    this.description,
     required this.url,
-    required this.urlToImage,
+    this.urlToImage,
     required this.publishedAt,
-    required this.content,
+    this.content,
   });
 
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
-      source: Source.fromJson(json['source']),
+      source: json['source'] != null ? Source.fromJson(json['source']) : null,
       author: json['author'],
-      title: json['title'],
+      title: json['title'] ?? 'No Title',
       description: json['description'],
-      url: json['url'],
+      url: json['url'] ?? '',
       urlToImage: json['urlToImage'],
-      publishedAt: json['publishedAt'],
+      publishedAt: json['publishedAt'] ?? '',
       content: json['content'],
     );
   }
@@ -58,9 +58,9 @@ class Article {
 
 class Source {
   final String? id;
-  final String name;
+  final String? name;
 
-  Source({this.id, required this.name});
+  Source({this.id, this.name});
 
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(id: json['id'], name: json['name']);
